@@ -81,8 +81,10 @@
 <body>
   <h1>To-Do App</h1>
   <div class="todo-container">
-    <input type="text" id="todo-input" placeholder="Add a new task...">
-    <button id="add-todo">Add</button>
+    <form id="todo-form" action="#">
+      <input type="text" id="todo-input" placeholder="Add a new task...">
+      <button id="add-todo">Add</button>
+    </form>
     <ul id="todo-list"></ul>
   </div>
 
@@ -91,6 +93,7 @@
       const todoInput = document.getElementById('todo-input');
       const todoList = document.getElementById('todo-list');
       const addTodoButton = document.getElementById('add-todo');
+      const todoForm = document.getElementById('todo-form');
 
       // Load todos from localStorage
       const loadTodos = () => {
@@ -121,15 +124,19 @@
         todoList.appendChild(li);
       };
 
-      // Add new todo
-      addTodoButton.addEventListener('click', () => {
+      const handleAddTodo = (e) => {
+        e.preventDefault();
         const todoText = todoInput.value.trim();
         if (todoText) {
           addTodoToDOM(todoText);
           saveTodos();
           todoInput.value = '';
         }
-      });
+      };
+
+      // Add new todo
+      addTodoButton.addEventListener('click', handleAddTodo);
+      todoForm.addEventListener('submit', handleAddTodo);
 
       // Initialize app
       loadTodos();
